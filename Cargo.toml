@@ -1,0 +1,10 @@
+[package]
+name = "server_aks_ide"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-cors = "0.7.0"
+actix-web = "4.0.0"
+dotenv = "0.15.0"
+serde = "1.0.215"
