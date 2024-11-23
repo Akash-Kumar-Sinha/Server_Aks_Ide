@@ -13,3 +13,4 @@ env_logger = "0.11.5"
 jsonwebtoken = "9.3.0"
 chrono = "0.4.38"
 lettre = "0.11.10"
+sqlx = { version = "0.8.2", features = ["runtime-async-std-native-tls", "postgres"] }
