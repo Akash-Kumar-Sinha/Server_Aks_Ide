@@ -1,5 +1,6 @@
 # Aks_Ide
 
+- setup .env file
 - Run: `cargo watch -x 'run'`
 
 cargo add diesel chrono --features "diesel/postgres diesel/r2d2"
