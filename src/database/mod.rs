@@ -1,17 +1,28 @@
-use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
+use actix::{Actor, Addr, SyncContext};
+use diesel::{
+    r2d2::{ConnectionManager, Pool},
+    PgConnection,
+};
 
-pub struct AppState{
-    pub db: Pool<Postgres>
+pub mod models;
+pub mod messages;
+
+pub struct AppState {
+    pub db: Addr<DbActor>,
+}
+pub struct DbActor(pub Pool<ConnectionManager<PgConnection>>);
+
+impl Actor for DbActor {
+    type Context = SyncContext<Self>;
 }
 
-pub async fn get_pool(db_url: &str) -> Pool<Postgres> {
-    let pool = PgPoolOptions::new()
-        .max_connections(5)
-        .connect(db_url)
-        .await
-        .expect("Failed to connect to Postgres");
+pub async fn get_pool(db_url: &str) -> Pool<ConnectionManager<PgConnection>> {
+    let manager = ConnectionManager::<PgConnection>::new(db_url);
+    let pool = Pool::builder()
+        .build(manager)
+        .expect("🔥 Failed to connect to Postgres");
 
-    println!("Database connection established successfully.");
+    println!("✅ Database connection established successfully.");
 
     pool
 }
