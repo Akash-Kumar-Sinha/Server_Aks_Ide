@@ -79,14 +79,16 @@ pub async fn create_user(req: web::Json<Value>, state: Data<AppState>) -> impl R
                                 provider_id: "email".to_string(),
                             };
 
-                            let auth_auth = encode(
+                            let auth_token = encode(
                                 &Header::new(Algorithm::HS256),
                                 &claims,
                                 &EncodingKey::from_secret(env_jwt_secret.as_ref()),
-                            );
+                            ).expect("Error encoding token");
+                            
                             return HttpResponse::Ok().json(serde_json::json!({
                                 "message": "User created",
-                                "Route": "CREATED"
+                                "Route": "CREATED",
+                                "token": auth_token
                             }));
                         }
                         Err(e) => {

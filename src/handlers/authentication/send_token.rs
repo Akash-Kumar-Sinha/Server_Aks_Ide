@@ -62,7 +62,6 @@ pub async fn send_token(req: web::Json<Value>, state: Data<AppState>) -> impl Re
                                     {
                                         Ok(Ok(_)) => {
                                             return HttpResponse::Ok().json(serde_json::json!({
-                                                "token": token,
                                                 "message": "Email sent successfully",
                                                 "Route": "SENT"
                                             }));
